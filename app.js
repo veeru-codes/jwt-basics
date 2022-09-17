@@ -1,7 +1,10 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import 'express-async-errors';
 
 import jwtRouter from './routes/jwt.router.js';
+import notFound from './middleware/notFound.js';
+import errorHandler from './middleware/errorHandler.js';
 
 dotenv.config();
 const app = express();
@@ -13,14 +16,13 @@ app.use(express.json());
 // Base Route
 app.use('/api/v1', jwtRouter);
 
+app.use(notFound);
+app.use(errorHandler);
+
 const start = async () => {
-  try {
-    app.listen(PORT, () => {
-      console.log('Server running...');
-    });
-  } catch (error) {
-    console.log(`Error: ${error.message}`);
-  }
+  app.listen(PORT, () => {
+    console.log('Server running...');
+  });
 };
 
 start();
