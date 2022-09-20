@@ -1,9 +1,10 @@
-import express from 'express'
-import { dashboard, login } from '../controllers/main.js'
+import express from 'express';
+import { dashboard, login } from '../controllers/main.js';
+import auth from '../middleware/auth.js';
 
-const jwtRouter = express.Router()
+const jwtRouter = express.Router();
 
-jwtRouter.route('/login').post(login)
-jwtRouter.route('/dashboard').get(dashboard)
+jwtRouter.route('/login').post(login);
+jwtRouter.route('/dashboard').get(auth, dashboard);
 
-export default jwtRouter
+export default jwtRouter;
