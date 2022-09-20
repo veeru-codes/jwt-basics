@@ -24,19 +24,8 @@ const login = async (req, res) => {
 };
 
 const dashboard = async (req, res) => {
-  const authHeaders = req.headers.authorization;
-
-  // Check authorization headers
-  if (!authHeaders || !authHeaders.startsWith('Bearer ')) {
-    throw new Error('InvalidHeaders');
-  }
-
-  // Extract the token from auth header: 'Bearer xxx.yyy.zzz'
-  const token = authHeaders.split(' ')[1];
-
-  // Verify the token
-  const decodedToken = Jwt.verify(token, process.env.SECRET);
-  res.status(200).json({ user: decodedToken.username });
+  const username = req.user;
+  res.status(200).json({ user: username });
 };
 
 export { login, dashboard };
